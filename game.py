@@ -78,7 +78,7 @@ class Game:
         # There is no winner and all moves have been tried.
 
     def toggle_player(self):
-        self.current_player = next(self.current_player)
+        self.current_player = next(self._players)
        
     def reset_game(self):
         """Reset the game state to play again."""
