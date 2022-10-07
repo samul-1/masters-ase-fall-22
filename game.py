@@ -59,9 +59,13 @@ class Game:
         # and that there is no winner yet. Note that non-played cells
         # contain an empty string (i.e. ""). 
         # Use variables no_winner and move_not_played.
+        def flatten(l):
+            return [item for sublist in l for item in sublist]
+        
+        
         no_winner = not self.has_winner
         move_not_played = not bool(
-            next(l for (r, c, l) in self._current_moves if row == r and col == c)
+            next(l for (r, c, l) in flatten(self._current_moves) if row == r and col == c)
         )
 
         return no_winner and move_not_played
