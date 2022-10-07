@@ -30,6 +30,11 @@ class Game:
         self._winning_combos = []
         self._setup_board()
 
+
+    # for i in range(board_size):
+    #     for j in range(board_size):
+    #         self._current_moved[i][j] = Move(i, j)
+            
     def _setup_board(self):
         self._current_moves = [
             [Move(row, col) for col in range(self.board_size)]
@@ -51,11 +56,14 @@ class Game:
     def is_valid_move(self, move):
         """Return True if move is valid, and False otherwise."""
         row, col = move.row, move.col
-        # TODO: check that the current move has not been played already 
         # and that there is no winner yet. Note that non-played cells
         # contain an empty string (i.e. ""). 
         # Use variables no_winner and move_not_played.
-        
+        no_winner = not self.has_winner
+        move_not_played = not bool(
+            next(l for (r, c, l) in self._current_moves if row == r and col == c)
+        )
+
         return no_winner and move_not_played
 
     def process_move(self, move):
