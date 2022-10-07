@@ -67,6 +67,10 @@ class Game:
         move_not_played = not bool(
             next(l for (r, c, l) in flatten(self._current_moves) if row == r and col == c)
         )
+        
+        # print(next((r,c,l) for (r,c,l) in flatten(self._current_moves) if row == r and col == c))
+        # print(no_winner)
+        # print(move_not_played)
 
         return no_winner and move_not_played
 
