@@ -78,9 +78,7 @@ class Game:
         # There is no winner and all moves have been tried.
 
     def toggle_player(self):
-        """Return a toggled player."""
-        # TODO: switches self.current_player to the other player.
-        # Hint: https://docs.python.org/3/library/functions.html#next
+        self.current_player = next(self.current_player)
        
     def reset_game(self):
         """Reset the game state to play again."""
