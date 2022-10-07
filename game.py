@@ -1,6 +1,7 @@
 from itertools import cycle
 from typing import NamedTuple
 
+
 class Player(NamedTuple):
     label: str
     color: str
@@ -30,11 +31,10 @@ class Game:
         self._winning_combos = []
         self._setup_board()
 
-
     # for i in range(board_size):
     #     for j in range(board_size):
     #         self._current_moved[i][j] = Move(i, j)
-            
+
     def _setup_board(self):
         self._current_moves = [
             [Move(row, col) for col in range(self.board_size)]
@@ -56,18 +56,18 @@ class Game:
     def is_valid_move(self, move):
         """Return True if move is valid, and False otherwise."""
         row, col = move.row, move.col
+
         # and that there is no winner yet. Note that non-played cells
         # contain an empty string (i.e. ""). 
         # Use variables no_winner and move_not_played.
         def flatten(l):
             return [item for sublist in l for item in sublist]
-        
-        
-        no_winner = not self.has_winner
+
+        no_winner = not self.has_winner()
         move_not_played = not bool(
             next(l for (r, c, l) in flatten(self._current_moves) if row == r and col == c)
         )
-        
+
         # print(next((r,c,l) for (r,c,l) in flatten(self._current_moves) if row == r and col == c))
         # print(no_winner)
         # print(move_not_played)
@@ -82,17 +82,18 @@ class Game:
         # Do not return any values but set variables  self._has_winner 
         # and self.winner_combo in case of winning combo.
         # Hint: you can scan pre-computed winning combos in self._winning_combos
-        
-        # start
-        if self._current_moves in self._winning_combos:
-            self._has_winner =  True
-            self.winner_combo = self._winning_combos[0]
 
+        current_simple_moves = set()
 
+        for moves_in_col in self._current_moves:
+            for move in moves_in_col:
+                if move.label == self.current_player.label:
+                    current_simple_moves.add((move.row, move.col))
 
-
-        
-
+        for winning in self._winning_combos:
+            if set(winning).issubset(current_simple_moves):
+                self._has_winner = True
+                self.winner_combo = winning
 
     def has_winner(self):
         """Return True if the game has a winner, and False otherwise."""
@@ -105,7 +106,7 @@ class Game:
 
     def toggle_player(self):
         self.current_player = next(self._players)
-       
+
     def reset_game(self):
         """Reset the game state to play again."""
         for row, row_content in enumerate(self._current_moves):
