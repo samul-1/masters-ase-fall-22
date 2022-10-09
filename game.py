@@ -82,11 +82,18 @@ class Game:
         # Do not return any values but set variables  self._has_winner 
         # and self.winner_combo in case of winning combo.
         # Hint: you can scan pre-computed winning combos in self._winning_combos
-        
-        # start
-        if self._current_moves in self._winning_combos:
-            self._has_winner =  True
-            self.winner_combo = self._winning_combos[0]
+
+        current_simple_moves = set()
+
+        for moves_in_col in self._current_moves:
+            for move in moves_in_col:
+                if move.label == self.current_player.label:
+                    current_simple_moves.add((move.row, move.col))
+
+        for winning in self._winning_combos:
+            if set(winning).issubset(current_simple_moves):
+                self._has_winner = True
+                self.winner_combo = winning
 
 
 
